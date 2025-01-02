@@ -32,15 +32,17 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun PantallaDesayuno(modifier: Modifier = Modifier) {
-    Box(
-    ){
+        Text(text = "Pancakes",
+            fontSize = 32.sp,
+            fontFamily = FontFamily(Font(R.font.alfa_slab_one)),
+            modifier = Modifier.padding(30.dp, 0.dp)
+        )
 
-        Text(text = "Pancakes")
-    }
 
     Column (
-        modifier = Modifier.padding(25.dp, 25.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = Modifier.padding(25.dp, 45.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+
     ){
 
 
