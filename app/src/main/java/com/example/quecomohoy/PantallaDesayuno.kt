@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -29,63 +32,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.example.quecomohoy.claseListaReceta.ClaseParaRecetas
+
+
 
 @Composable
-fun PantallaDesayuno(modifier: Modifier = Modifier) {
-        Text(text = "Pancakes",
+fun PantallaDesayuno() {
+        Text(text = "Desayuno",
             fontSize = 32.sp,
             fontFamily = FontFamily(Font(R.font.alfa_slab_one)),
             modifier = Modifier.padding(30.dp, 0.dp)
         )
-
-
-    Column (
-        modifier = Modifier.padding(25.dp, 45.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-    ){
-
-
-    Card(
-        modifier = modifier
-            .width(350.dp),
-        colors = CardDefaults.cardColors(Color.White)
-
-
-
-    ){
-        Column(
-           verticalArrangement = Arrangement.Bottom,
-        ) {
-          Image(
-              painter = painterResource(id = R.drawable.pancakes),
-              contentDescription = null,
-              contentScale = ContentScale.FillWidth
-          )
-
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text("5-10 mins", fontSize = 14.sp)
-                    Text("Medio",fontSize = 14.sp )
-                }
-            Text(
-                text = "Tostadas de aguacate con huevo poché",
-                modifier = Modifier.padding(0.dp,0.dp,0.dp, 10.dp),
-                style = TextStyle(
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily(Font(R.font.inter_semibold)),
-                    fontWeight = FontWeight(500),
-                    color = Color(0xFF000000),
-                )
-            )
-
-
+    Column(
+        Modifier. verticalScroll(rememberScrollState())
+    ) {
+        listaRecetas.forEach{ listElement ->
+            TarjetaReceta(nueva_receta = listElement)
         }
+    }
+    }
 
-    }
-    }
-}
 
 
