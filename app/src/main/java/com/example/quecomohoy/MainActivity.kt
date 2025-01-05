@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             QuecomohoyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    PantallaDesayunoBeta()
+                    PantallaRecetaCompleta()
                 }
             }
 
@@ -117,17 +117,11 @@ fun TarjetaReceta(nueva_receta: ClaseParaRecetas) {
 
                     Text(nueva_receta.dificultad, fontSize = 14.sp)
                 }
-                Text(
-                    text = nueva_receta.titulo,
-                    modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 10.dp),
-                    style = TextStyle(
-                        fontSize = 20.sp,
-                        fontFamily = FontFamily(Font(R.font.inter_semibold)),
-                        fontWeight = FontWeight(500),
-                        color = Color(0xFF000000),
-                    )
+                Text(text = "Comida",
+                    fontSize = 32.sp,
+                    fontFamily = FontFamily(Font(R.font.alfa_slab_one)),
+                    modifier = Modifier.padding(30.dp, 0.dp)
                 )
-
 
             }
 
