@@ -1,24 +1,37 @@
 package com.example.quecomohoy
 
 
-import androidx.recyclerview.widget.LinearLayoutManager
+/*import androidx.recyclerview.widget.RecyclerView*/
+import android.graphics.drawable.Icon
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,16 +40,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.recyclerview.widget.RecyclerView
 import coil.compose.AsyncImage
-import com.example.quecomohoy.adapter.RecetasAdapter
 import com.example.quecomohoy.claseListaReceta.ClaseParaRecetas
-import com.example.quecomohoy.recetarioimg.Receta
 import com.example.quecomohoy.ui.theme.QuecomohoyTheme
-
 
 
 class MainActivity : ComponentActivity() {
@@ -46,7 +57,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             QuecomohoyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    PantallaDesayunoBeta()
+                    PantallaHome()
+                    /*PantallaDesayunoBeta()*/
                 }
             }
 
@@ -136,7 +148,104 @@ fun TarjetaReceta(nueva_receta: ClaseParaRecetas) {
 }
 
 @Composable
+fun ListarRecetas () {
+    Column (
+        Modifier
+            .padding(10.dp)
+            .verticalScroll(rememberScrollState())
+    ){
+        listaRecetas.forEach{ listElement ->
+            TarjetaReceta(nueva_receta = listElement)
+            Spacer(Modifier.size(10.dp))
+        }
+    }
+}
+
+@Composable
+fun TopBarBuscar (state: MutableState<TextFieldValue>) {
+    TextField (
+        value = state.value,
+        onValueChange = {
+            value ->
+            state.value = value
+        },
+
+        modifier = Modifier
+            .fillMaxWidth(),
+        textStyle = TextStyle (
+            fontSize = 12.sp,
+            fontFamily = FontFamily(Font(R.font.inter_medium)),
+            fontWeight = FontWeight(400),
+            color = Color.Black
+        ),
+        label = { Text(text = "Busca recetas") },
+
+        leadingIcon = {
+            Icon (
+                Icons.Default.Search,
+                contentDescription = "",
+                modifier = Modifier
+                    .padding(10.dp)
+                    .size(24.dp)
+            )
+        },
+        keyboardOptions = KeyboardOptions (
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
+        singleLine = true,
+        shape = RoundedCornerShape(size = 30.dp),
+
+    )
+}
+
+@Composable
+fun BuscarEnLista (palabraABuscar: MutableState<TextFieldValue>, listaRecetas:ArrayList<ClaseParaRecetas>) {
+    var listaFiltrada = listaRecetas
+    val textABuscar = palabraABuscar.value.text
+
+    listaFiltrada = if (textABuscar.isEmpty()) listaRecetas
+    else { val resultList =
+    ArrayList<ClaseParaRecetas>()
+        for
+            (receta in listaRecetas) {
+                if (receta.titulo.lowercase().contains(textABuscar.lowercase())) {
+                    resultList.add(receta)
+                }
+            }
+        resultList
+    }
+    ListarRecetas(listaFiltrada)
+
+}
+
+@Composable
 fun PantallaHome(modifier: Modifier = Modifier) {
+
+    val palabraABuscar = remember{mutableStateOf(TextFieldValue(""))}
+
+    Column (modifier = Modifier.padding(30.dp, 30.dp)) {
+        Text(
+            text = "¿Qué como hoy?",
+            style = TextStyle(
+                fontSize = 32.sp,
+                fontFamily = FontFamily(Font(R.font.alfa_slab_one)),
+                fontWeight = FontWeight(900),
+                color = Color(0xFFF17782),
+            )
+        )
+
+        Scaffold (
+            topBar = { TopBarBuscar(palabraABuscar) },
+            content = BuscarEnLista (palabraABuscar = palabraABuscar,
+                listaRecetas = listaRecetas)
+        )
+
+    }
+
+
+
+
 
 }
 
